@@ -1,2 +1,3 @@
-# A map generator that kinda works and isn't that dumb
+# A game about walls
+it shud werk
 
