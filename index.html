@@ -255,10 +255,16 @@ function setup() {// adding tiles to array
     }
 }
 
+setup();
+
 var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*2, increment*2), new Size(increment, increment/2));
 var e_cornerSize = new Size(20, 20);
 var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
 show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
+
+var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, window.innerHeight - (size*1.5*25))-10, new Size(size*25+30, size*25+20));
+var cover = new Shape.Rectangle(c_rectangle);
+cover.fillColor = '#FFE7D6';
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -276,8 +282,6 @@ function isNegative(number) { // check if number is negative
         return false;
     }
 }
-
-setup();
 
 function onFrame(event) { // runs 60 times per second
 }
@@ -318,6 +322,14 @@ function onMouseDown(event) {
                     wallsMain[i][ii].fillColor = '#F26A44';
                 }
             }
+        }
+    }
+    if (show_button.contains(event.point)) {
+        if (cover.fillColor == '#FFE7D6') {
+            cover.fillColor = new Color(1,1,1,0);
+        }
+        else {
+            cover.fillColor = '#FFE7D6';
         }
     }
 }
