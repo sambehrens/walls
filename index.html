@@ -262,7 +262,16 @@ var e_cornerSize = new Size(20, 20);
 var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
 show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
 
-var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, window.innerHeight - (size*1.5*25))-10, new Size(size*25+30, size*25+20));
+var help = new PointText({
+    point: [window.innerWidth - increment*2 + increment/2, increment*2 + increment*0.33],
+    content: 'Heylp',
+    fillColor: 'white',
+    fontFamily: 'Quicksand',
+    fontSize: increment/3,
+    justification: 'center'
+});
+
+var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, window.innerHeight - (size*1.5*25)-10), new Size(size*25+30, size*25+20));
 var cover = new Shape.Rectangle(c_rectangle);
 cover.fillColor = '#FFE7D6';
 
