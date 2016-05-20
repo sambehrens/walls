@@ -1,0 +1,350 @@
+<html>
+<head>
+	<title>Walls</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body oncontextmenu="return false">
+    <canvas id="myCanvas" resize></canvas>
+    <script type="text/javascript" src="js/paper-full.js"></script>
+    <script type="text/paperscript" canvas="myCanvas">
+
+var mouse = new Point(0,0);
+
+var size = 5, increment = 0, xStart = 0;
+
+//size = Math.floor((Math.random() * 7) + 4);
+increment = Math.floor(window.innerHeight / (size+1));
+xStart = Math.floor((window.innerWidth - size * increment) / 2);
+
+var player1 = {
+    tank: new Raster(),
+    forward: false,
+    left: false,
+    right: false,
+    back: false,
+    coords: {x:0,y:0}
+}
+
+var boardMain = [];
+var tilesMain = [];
+var wallsMain = [];
+
+function setup() {// adding tiles to array
+    for (var i = 0; i < size; i += 1) {
+        var row = [];
+        for (var ii = 0; ii < size; ii += 1) {
+
+            var tileObject = {
+                path: new Rectangle(),
+                top: false,
+                bot: false,
+                left: false,
+                right: false,
+                leftedge: false,
+                rightedge: false,
+                topedge: false,
+                botedge: false,
+                totalwalls: 0
+            }
+
+            if (i === 0) {
+                tileObject.top = true;
+                tileObject.topedge = true;
+            } else if (i === size - 1) {
+                tileObject.bot = true;
+                tileObject.botedge = true;
+            }
+            if (ii === 0) {
+                tileObject.left = true;
+                tileObject.leftedge = true;
+            } else if (ii === size - 1) {
+                tileObject.right = true;
+                tileObject.rightedge = true;
+            }
+
+            row.push(tileObject);
+        }
+        boardMain.push(row);
+    }
+
+    for (var i = 0; i < size; i += 1) { // adding wall values
+        for (var ii = 0; ii < size; ii += 1) {
+
+            if (Math.random() > 0.5 && ii < size-1) {
+
+                boardMain[i][ii].right = true;
+                boardMain[i][ii+1].left = true;
+            }
+            if (Math.random() > 0.5 && i < size-1) {
+
+                boardMain[i][ii].bot = true;
+                boardMain[i+1][ii].top = true;
+            }
+        }
+    }
+    for (var i = 0; i < size; i += 1) {
+        for (var ii = 0; ii < size; ii += 1) {
+            if (boardMain[i][ii].top) {
+                boardMain[i][ii].totalwalls += 1;
+            }
+            if (boardMain[i][ii].bot) {
+                boardMain[i][ii].totalwalls += 1;
+            }
+            if (boardMain[i][ii].left) {
+                boardMain[i][ii].totalwalls += 1;
+            }
+            if (boardMain[i][ii].right) {
+                boardMain[i][ii].totalwalls += 1;
+            }
+        }
+    }
+    var x = xStart, y = increment/2; // corner pieces
+    for (var i = 0; i < size; i += 1) {// middle pieces
+        for (var ii = 0; ii < size; ii += 1) {
+            var rectangle = new Rectangle(new Point(x + increment/4, y + increment/4), new Size(increment*0.75, increment*0.75));
+            var cornerSize = new Size(increment/20, increment/20);
+            var shape = new Shape.Rectangle(rectangle, cornerSize);
+            shape.fillColor = '#EC1B4B';
+            var text = new PointText({
+                point: [x + increment*0.6, y + increment*0.75],
+                content: boardMain[i][ii].totalwalls,
+                fillColor: 'white',
+                fontFamily: 'Quicksand',
+                fontSize: increment/2,
+                justification: 'center'
+            });
+            x += increment;
+        }
+        y += increment;
+        x = xStart;
+    }
+    x = xStart;
+    y = increment/2;
+    for (var i = 0; i < size; i += 1) {// middle pieces
+        var row = [];
+        for (var ii = 0; ii < size; ii += 1) {
+
+            if (boardMain[i][ii].leftedge) {
+                var rectangle = new Rectangle(new Point(x, y + increment/8), new Size(increment/4, increment*0.75+increment/4));
+                var cornerSize = new Size(increment/20, increment/20);
+                var shape = new Shape.Rectangle(rectangle);
+                shape.fillColor = '#F26A44';
+                row.push(shape);
+            }
+            if (boardMain[i][ii].topedge) {
+                var rectangle = new Rectangle(new Point(x + increment/8, y), new Size(increment*0.75+increment/4, increment/4));
+                var cornerSize = new Size(increment/20, increment/20);
+                var shape = new Shape.Rectangle(rectangle);
+                shape.fillColor = '#F26A44';
+                row.push(shape);
+                console.log("the topedge");
+            }
+            if (true) { // the right
+                var rectangle = new Rectangle(new Point(x + increment, y + increment/8), new Size(increment/4, increment*0.75+increment/4));
+                var cornerSize = new Size(increment/20, increment/20);
+                var shape = new Shape.Rectangle(rectangle);
+                if (boardMain[i][ii].rightedge) {
+                    shape.fillColor = '#F26A44';
+                }
+                else {
+                    shape.fillColor = '#F7DB69';
+                }
+                row.push(shape);
+            }
+            if (true) { // the bottom
+                var rectangle = new Rectangle(new Point(x + increment/8, y + increment), new Size(increment*0.75+increment/4, increment/4));
+                var cornerSize = new Size(increment/20, increment/20);
+                var shape = new Shape.Rectangle(rectangle);
+                if (boardMain[i][ii].botedge) {
+                    shape.fillColor = '#F26A44';
+                }
+                else {
+                    shape.fillColor = '#F7DB69';
+                }
+                row.push(shape);
+            }
+            x += increment;
+        }
+        wallsMain.push(row);
+        y += increment;
+        x = xStart;
+    }
+
+    x = xStart;
+    y = increment/2;
+    for (var i = 0; i < size+1; i += 1) {
+        for (var ii = 0; ii < size+1; ii += 1) {
+            var rectangle = new Rectangle(new Point(x-4, y-4), new Size(increment/4+8, increment/4+8));
+            var cornerSize = new Size(increment/20, increment/20);
+            var shape = new Shape.Rectangle(rectangle, cornerSize);
+            shape.fillColor = '#F26A44';
+            x += increment;
+        }
+        y += increment;
+        x = xStart;
+    }
+
+    newincrement = 25;
+    x = window.innerWidth - (size*1.5*newincrement);
+    y = window.innerHeight - (size*1.5*newincrement);
+    var color = getRandomColor();
+    for (var i = 0; i < size; i += 1) { // drawing the rooms
+        for (var ii = 0; ii < size; ii += 1) {
+            var rectangle = new Rectangle(new Point(x, y), new Size(newincrement, newincrement));
+            var cornerSize = new Size(10, 10);
+            var shape = new Shape.Rectangle(rectangle);
+            shape.fillColor = color;
+
+            boardMain[i][ii].path = shape;
+            x+=newincrement;
+        }
+        y += newincrement;
+        x = window.innerWidth - (size*1.5*newincrement);
+    }
+
+    x = window.innerWidth - (size*1.5*newincrement);
+    y = window.innerHeight - (size*1.5*newincrement);
+    for (var i = 0; i < size; i += 1) { // drawing the walls
+        for (var ii = 0; ii < size; ii += 1) {
+            if (boardMain[i][ii].top === true) {
+
+                var from = new Point(x, y);
+                var to = new Point(x + newincrement, y);
+                var path = new Path.Line(from, to);
+                path.strokeColor = 'white';
+                path.strokeWidth =newincrement/10;
+
+                path.strokeCap = "round";
+
+            }
+            if (boardMain[i][ii].bot === true) {
+
+                var from = new Point(x, y + newincrement);
+                var to = new Point(x + newincrement, y + newincrement);
+                var path = new Path.Line(from, to);
+                path.strokeColor = 'white';
+                path.strokeWidth =newincrement/10;
+
+                path.strokeCap = "round";
+            }
+            if (boardMain[i][ii].left === true) {
+
+                var from = new Point(x, y);
+                var to = new Point(x, y + newincrement);
+                var path = new Path.Line(from, to);
+                path.strokeColor = 'white';
+                path.strokeWidth = newincrement/10;
+
+                path.strokeCap = "round";
+                
+            }
+            if (boardMain[i][ii].right === true) {
+
+                var from = new Point(x + newincrement, y);
+                var to = new Point(x + newincrement, y + newincrement);
+                var path = new Path.Line(from, to);
+                path.strokeColor = 'white';
+                path.strokeWidth = newincrement/10;
+
+                path.strokeCap = "round";
+            }
+            x+=newincrement;
+        }
+        y += newincrement;
+        x = window.innerWidth - (size*1.5*newincrement);
+    }
+}
+
+var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*2, increment*2), new Size(increment, increment/2));
+var e_cornerSize = new Size(20, 20);
+var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
+show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function isNegative(number) { // check if number is negative
+    if (number > 0) {
+        return true;
+    } else if (number < 0) {
+        return false;
+    }
+}
+
+setup();
+
+function onFrame(event) { // runs 60 times per second
+}
+
+function onKeyDown(event) {
+}
+
+function onKeyUp(event) {
+}
+
+function onMouseMove(event) {
+    mouse = event.point;
+}
+
+function onMouseDrag(event) {
+    for (var i = 0; i < wallsMain.length; i += 1) {
+        for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
+            if (wallsMain[i][ii].contains(event.point)) {
+                if (wallsMain[i][ii].fillColor == '#F26A44') {
+                    wallsMain[i][ii].fillColor = '#F7DB69';
+                }
+                else {
+                    wallsMain[i][ii].fillColor = '#F26A44';
+                }
+            }
+        }
+    }
+}
+
+function onMouseDown(event) {
+    for (var i = 0; i < wallsMain.length; i += 1) {
+        for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
+            if (wallsMain[i][ii].contains(event.point)) {
+                if (wallsMain[i][ii].fillColor == '#F26A44') {
+                    wallsMain[i][ii].fillColor = '#F7DB69';
+                }
+                else {
+                    wallsMain[i][ii].fillColor = '#F26A44';
+                }
+            }
+        }
+    }
+}
+
+function onMouseUp(event) {
+
+}
+
+function onKeyDown(event) {
+    if (Key.isDown('space')) {
+        for (var i = 0; i < wallsMain.length; i += 1) {
+            for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
+                if (wallsMain[i][ii].contains(mouse)) {
+                    if (wallsMain[i][ii].fillColor == '#EC1B4B') {
+                        wallsMain[i][ii].fillColor = '#F7DB69';
+                    }
+                    else {
+                        wallsMain[i][ii].fillColor = '#EC1B4B';
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+    </script>
+</body>
+</html>

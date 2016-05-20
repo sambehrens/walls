@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    background-color: #FFE7D6;
+}
+
+@font-face { font-family: Quicksand; src: url('../Assets/Quicksand-Regular.otf'); } 
