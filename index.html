@@ -269,7 +269,7 @@ if (window.innerWidth > window.innerHeight) {
     var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*1.33, increment/3), new Size(increment, increment/2));
     var e_cornerSize = new Size(20, 20);
     var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
-    show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
+    show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.0);
 
     var help = new PointText({
         point: [show_button.position.x, show_button.position.y + increment*0.1],
