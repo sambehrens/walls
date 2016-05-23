@@ -13,7 +13,12 @@ var mouse = new Point(0,0);
 var size = 6, increment = 0, xStart = 0;
 
 //size = Math.floor((Math.random() * 7) + 4);
-increment = Math.floor(window.innerHeight / (size+1));
+if (innerHeight <= innerWidth) {
+    increment = Math.floor(window.innerHeight / (size+1));
+}
+if (innerHeight > innerWidth) {
+    increment = Math.floor(window.innerWidth / (size+1));
+}
 xStart = Math.floor((window.innerWidth - size * increment) / 2);
 
 var player1 = {
@@ -98,13 +103,13 @@ function setup() {// adding tiles to array
             }
         }
     }
-    var x = xStart, y = increment/2; // corner pieces
+    var x = xStart, y = increment/2;
     for (var i = 0; i < size; i += 1) {// middle pieces
         for (var ii = 0; ii < size; ii += 1) {
             var rectangle = new Rectangle(new Point(x + increment/4, y + increment/4), new Size(increment*0.75, increment*0.75));
             var cornerSize = new Size(increment/20, increment/20);
             var shape = new Shape.Rectangle(rectangle, cornerSize);
-            shape.fillColor = '#EC1B4B';
+            shape.fillColor = '#00AAA0';
             var text = new PointText({
                 point: [x + increment*0.6, y + increment*0.75],
                 content: boardMain[i][ii].totalwalls,
@@ -128,14 +133,14 @@ function setup() {// adding tiles to array
                 var rectangle = new Rectangle(new Point(x, y + increment/8), new Size(increment/4, increment*0.75+increment/4));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
-                shape.fillColor = '#F26A44';
+                shape.fillColor = '#FFB85F';
                 row.push(shape);
             }
             if (boardMain[i][ii].topedge) {
                 var rectangle = new Rectangle(new Point(x + increment/8, y), new Size(increment*0.75+increment/4, increment/4));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
-                shape.fillColor = '#F26A44';
+                shape.fillColor = '#FFB85F';
                 row.push(shape);
                 console.log("the topedge");
             }
@@ -144,10 +149,10 @@ function setup() {// adding tiles to array
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 if (boardMain[i][ii].rightedge) {
-                    shape.fillColor = '#F26A44';
+                    shape.fillColor = '#FFB85F';
                 }
                 else {
-                    shape.fillColor = '#F7DB69';
+                    shape.fillColor = '#8ED2C9';
                 }
                 row.push(shape);
             }
@@ -156,10 +161,10 @@ function setup() {// adding tiles to array
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 if (boardMain[i][ii].botedge) {
-                    shape.fillColor = '#F26A44';
+                    shape.fillColor = '#FFB85F';
                 }
                 else {
-                    shape.fillColor = '#F7DB69';
+                    shape.fillColor = '#8ED2C9';
                 }
                 row.push(shape);
             }
@@ -177,7 +182,7 @@ function setup() {// adding tiles to array
             var rectangle = new Rectangle(new Point(x-4, y-4), new Size(increment/4+8, increment/4+8));
             var cornerSize = new Size(increment/20, increment/20);
             var shape = new Shape.Rectangle(rectangle, cornerSize);
-            shape.fillColor = '#F26A44';
+            shape.fillColor = '#FFB85F';
             x += increment;
         }
         y += increment;
@@ -185,9 +190,10 @@ function setup() {// adding tiles to array
     }
 
     newincrement = 25;
-    x = window.innerWidth - (size*1.5*newincrement);
-    y = window.innerHeight - (size*1.5*newincrement);
-    var color = getRandomColor();
+    var newXStart = window.innerWidth - (size*1.5*newincrement);
+    x = newXStart;
+    y = (size*1.25*newincrement);
+    var color = '#00AAA0';
     for (var i = 0; i < size; i += 1) { // drawing the rooms
         for (var ii = 0; ii < size; ii += 1) {
             var rectangle = new Rectangle(new Point(x, y), new Size(newincrement, newincrement));
@@ -199,11 +205,11 @@ function setup() {// adding tiles to array
             x+=newincrement;
         }
         y += newincrement;
-        x = window.innerWidth - (size*1.5*newincrement);
+        x = newXStart;
     }
 
-    x = window.innerWidth - (size*1.5*newincrement);
-    y = window.innerHeight - (size*1.5*newincrement);
+    x = newXStart;
+    y = (size*1.25*newincrement);
     for (var i = 0; i < size; i += 1) { // drawing the walls
         for (var ii = 0; ii < size; ii += 1) {
             if (boardMain[i][ii].top === true) {
@@ -211,7 +217,7 @@ function setup() {// adding tiles to array
                 var from = new Point(x, y);
                 var to = new Point(x + newincrement, y);
                 var path = new Path.Line(from, to);
-                path.strokeColor = 'white';
+                path.strokeColor = '#FFB85F';
                 path.strokeWidth =newincrement/10;
 
                 path.strokeCap = "round";
@@ -222,7 +228,7 @@ function setup() {// adding tiles to array
                 var from = new Point(x, y + newincrement);
                 var to = new Point(x + newincrement, y + newincrement);
                 var path = new Path.Line(from, to);
-                path.strokeColor = 'white';
+                path.strokeColor = '#FFB85F';
                 path.strokeWidth =newincrement/10;
 
                 path.strokeCap = "round";
@@ -232,7 +238,7 @@ function setup() {// adding tiles to array
                 var from = new Point(x, y);
                 var to = new Point(x, y + newincrement);
                 var path = new Path.Line(from, to);
-                path.strokeColor = 'white';
+                path.strokeColor = '#FFB85F';
                 path.strokeWidth = newincrement/10;
 
                 path.strokeCap = "round";
@@ -243,7 +249,7 @@ function setup() {// adding tiles to array
                 var from = new Point(x + newincrement, y);
                 var to = new Point(x + newincrement, y + newincrement);
                 var path = new Path.Line(from, to);
-                path.strokeColor = 'white';
+                path.strokeColor = '#FFB85F';
                 path.strokeWidth = newincrement/10;
 
                 path.strokeCap = "round";
@@ -251,19 +257,19 @@ function setup() {// adding tiles to array
             x+=newincrement;
         }
         y += newincrement;
-        x = window.innerWidth - (size*1.5*newincrement);
+        x = newXStart;
     }
 }
 
 setup();
 
-var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*2, increment*2), new Size(increment, increment/2));
+var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*1.33, increment/3), new Size(increment, increment/2));
 var e_cornerSize = new Size(20, 20);
 var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
 show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
 
 var help = new PointText({
-    point: [window.innerWidth - increment*2 + increment/2, increment*2 + increment*0.33],
+    point: [show_button.position.x, show_button.position.y + increment*0.1],
     content: 'Heylp',
     fillColor: 'white',
     fontFamily: 'Quicksand',
@@ -271,9 +277,37 @@ var help = new PointText({
     justification: 'center'
 });
 
-var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, window.innerHeight - (size*1.5*25)-10), new Size(size*25+30, size*25+20));
+var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, (size*1.25*25)-10), new Size(size*25+30, size*25+20));
 var cover = new Shape.Rectangle(c_rectangle);
-cover.fillColor = '#FFE7D6';
+cover.fillColor = '#462066';
+
+var title = new PointText({
+    point: [increment/4, increment],
+    content: 'Walls',
+    fillColor: '#FF7A5A',
+    fontFamily: 'Quicksand',
+    fontSize: increment,
+    justification: 'left'
+});
+
+var instructions = new PointText({
+    point: [increment/4, increment*2],
+    content: 'The number \ncorresponds to the \nnumber of walls \nsurrounding it.\n\nComplete the map by \nplacing walls.',
+    fillColor: '#FF7A5A',
+    fontFamily: 'Quicksand',
+    fontSize: increment/3.5,
+    justification: 'left'
+});
+
+var controls = new PointText({
+    point: [increment/4, increment*5],
+    content: 'Click to place wall.\nSpace to mark as \nnot there.',
+    fillColor: '#FF7A5A',
+    fontFamily: 'Quicksand',
+    fontSize: increment/4,
+    justification: 'left'
+});
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -306,39 +340,27 @@ function onMouseMove(event) {
 }
 
 function onMouseDrag(event) {
-    for (var i = 0; i < wallsMain.length; i += 1) {
-        for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
-            if (wallsMain[i][ii].contains(event.point)) {
-                if (wallsMain[i][ii].fillColor == '#F26A44') {
-                    wallsMain[i][ii].fillColor = '#F7DB69';
-                }
-                else {
-                    wallsMain[i][ii].fillColor = '#F26A44';
-                }
-            }
-        }
-    }
 }
 
 function onMouseDown(event) {
     for (var i = 0; i < wallsMain.length; i += 1) {
         for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
             if (wallsMain[i][ii].contains(event.point)) {
-                if (wallsMain[i][ii].fillColor == '#F26A44') {
-                    wallsMain[i][ii].fillColor = '#F7DB69';
+                if (wallsMain[i][ii].fillColor == '#FFB85F') {
+                    wallsMain[i][ii].fillColor = '#8ED2C9';
                 }
                 else {
-                    wallsMain[i][ii].fillColor = '#F26A44';
+                    wallsMain[i][ii].fillColor = '#FFB85F';
                 }
             }
         }
     }
     if (show_button.contains(event.point)) {
-        if (cover.fillColor == '#FFE7D6') {
+        if (cover.fillColor == '#462066') {
             cover.fillColor = new Color(1,1,1,0);
         }
         else {
-            cover.fillColor = '#FFE7D6';
+            cover.fillColor = '#462066';
         }
     }
 }
@@ -352,11 +374,11 @@ function onKeyDown(event) {
         for (var i = 0; i < wallsMain.length; i += 1) {
             for (var ii = 0; ii < wallsMain[i].length; ii += 1) {
                 if (wallsMain[i][ii].contains(mouse)) {
-                    if (wallsMain[i][ii].fillColor == '#EC1B4B') {
-                        wallsMain[i][ii].fillColor = '#F7DB69';
+                    if (wallsMain[i][ii].fillColor == '#00AAA0') {
+                        wallsMain[i][ii].fillColor = '#8ED2C9';
                     }
                     else {
-                        wallsMain[i][ii].fillColor = '#EC1B4B';
+                        wallsMain[i][ii].fillColor = '#00AAA0';
                     }
                 }
             }
