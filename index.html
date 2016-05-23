@@ -189,124 +189,128 @@ function setup() {// adding tiles to array
         x = xStart;
     }
 
-    newincrement = 25;
-    var newXStart = window.innerWidth - (size*1.5*newincrement);
-    x = newXStart;
-    y = (size*1.25*newincrement);
-    var color = '#00AAA0';
-    for (var i = 0; i < size; i += 1) { // drawing the rooms
-        for (var ii = 0; ii < size; ii += 1) {
-            var rectangle = new Rectangle(new Point(x, y), new Size(newincrement, newincrement));
-            var cornerSize = new Size(10, 10);
-            var shape = new Shape.Rectangle(rectangle);
-            shape.fillColor = color;
-
-            boardMain[i][ii].path = shape;
-            x+=newincrement;
-        }
-        y += newincrement;
+    if (window.innerWidth > window.innerHeight) {
+        newincrement = 25;
+        var newXStart = window.innerWidth - (size*1.5*newincrement);
         x = newXStart;
-    }
+        y = (size*1.25*newincrement);
+        var color = '#00AAA0';
+        for (var i = 0; i < size; i += 1) { // drawing the rooms
+            for (var ii = 0; ii < size; ii += 1) {
+                var rectangle = new Rectangle(new Point(x, y), new Size(newincrement, newincrement));
+                var cornerSize = new Size(10, 10);
+                var shape = new Shape.Rectangle(rectangle);
+                shape.fillColor = color;
 
-    x = newXStart;
-    y = (size*1.25*newincrement);
-    for (var i = 0; i < size; i += 1) { // drawing the walls
-        for (var ii = 0; ii < size; ii += 1) {
-            if (boardMain[i][ii].top === true) {
-
-                var from = new Point(x, y);
-                var to = new Point(x + newincrement, y);
-                var path = new Path.Line(from, to);
-                path.strokeColor = '#FFB85F';
-                path.strokeWidth =newincrement/10;
-
-                path.strokeCap = "round";
-
+                boardMain[i][ii].path = shape;
+                x+=newincrement;
             }
-            if (boardMain[i][ii].bot === true) {
-
-                var from = new Point(x, y + newincrement);
-                var to = new Point(x + newincrement, y + newincrement);
-                var path = new Path.Line(from, to);
-                path.strokeColor = '#FFB85F';
-                path.strokeWidth =newincrement/10;
-
-                path.strokeCap = "round";
-            }
-            if (boardMain[i][ii].left === true) {
-
-                var from = new Point(x, y);
-                var to = new Point(x, y + newincrement);
-                var path = new Path.Line(from, to);
-                path.strokeColor = '#FFB85F';
-                path.strokeWidth = newincrement/10;
-
-                path.strokeCap = "round";
-                
-            }
-            if (boardMain[i][ii].right === true) {
-
-                var from = new Point(x + newincrement, y);
-                var to = new Point(x + newincrement, y + newincrement);
-                var path = new Path.Line(from, to);
-                path.strokeColor = '#FFB85F';
-                path.strokeWidth = newincrement/10;
-
-                path.strokeCap = "round";
-            }
-            x+=newincrement;
+            y += newincrement;
+            x = newXStart;
         }
-        y += newincrement;
+
         x = newXStart;
+        y = (size*1.25*newincrement);
+        for (var i = 0; i < size; i += 1) { // drawing the walls
+            for (var ii = 0; ii < size; ii += 1) {
+                if (boardMain[i][ii].top === true) {
+
+                    var from = new Point(x, y);
+                    var to = new Point(x + newincrement, y);
+                    var path = new Path.Line(from, to);
+                    path.strokeColor = '#FFB85F';
+                    path.strokeWidth =newincrement/10;
+
+                    path.strokeCap = "round";
+
+                }
+                if (boardMain[i][ii].bot === true) {
+
+                    var from = new Point(x, y + newincrement);
+                    var to = new Point(x + newincrement, y + newincrement);
+                    var path = new Path.Line(from, to);
+                    path.strokeColor = '#FFB85F';
+                    path.strokeWidth =newincrement/10;
+
+                    path.strokeCap = "round";
+                }
+                if (boardMain[i][ii].left === true) {
+
+                    var from = new Point(x, y);
+                    var to = new Point(x, y + newincrement);
+                    var path = new Path.Line(from, to);
+                    path.strokeColor = '#FFB85F';
+                    path.strokeWidth = newincrement/10;
+
+                    path.strokeCap = "round";
+                    
+                }
+                if (boardMain[i][ii].right === true) {
+
+                    var from = new Point(x + newincrement, y);
+                    var to = new Point(x + newincrement, y + newincrement);
+                    var path = new Path.Line(from, to);
+                    path.strokeColor = '#FFB85F';
+                    path.strokeWidth = newincrement/10;
+
+                    path.strokeCap = "round";
+                }
+                x+=newincrement;
+            }
+            y += newincrement;
+            x = newXStart;
+        }
     }
 }
 
 setup();
 
-var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*1.33, increment/3), new Size(increment, increment/2));
-var e_cornerSize = new Size(20, 20);
-var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
-show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
+if (window.innerWidth > window.innerHeight) {
+    var e_rectangle = new Rectangle(new Point(window.innerWidth - increment*1.33, increment/3), new Size(increment, increment/2));
+    var e_cornerSize = new Size(20, 20);
+    var show_button = new Shape.Rectangle(e_rectangle, e_cornerSize);
+    show_button.fillColor = new Color(0.03, 0.03, 0.03, 0.5);
 
-var help = new PointText({
-    point: [show_button.position.x, show_button.position.y + increment*0.1],
-    content: 'Heylp',
-    fillColor: 'white',
-    fontFamily: 'Quicksand',
-    fontSize: increment/3,
-    justification: 'center'
-});
+    var help = new PointText({
+        point: [show_button.position.x, show_button.position.y + increment*0.1],
+        content: 'Heylp',
+        fillColor: 'white',
+        fontFamily: 'Quicksand',
+        fontSize: increment/3,
+        justification: 'center'
+    });
 
-var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, (size*1.25*25)-10), new Size(size*25+30, size*25+20));
-var cover = new Shape.Rectangle(c_rectangle);
-cover.fillColor = '#462066';
+    var c_rectangle = new Rectangle(new Point(window.innerWidth - (size*1.5*25)-10, (size*1.25*25)-10), new Size(size*25+30, size*25+20));
+    var cover = new Shape.Rectangle(c_rectangle);
+    cover.fillColor = '#462066';
 
-var title = new PointText({
-    point: [increment/4, increment],
-    content: 'Walls',
-    fillColor: '#FF7A5A',
-    fontFamily: 'Quicksand',
-    fontSize: increment,
-    justification: 'left'
-});
+    var title = new PointText({
+        point: [increment/4, increment],
+        content: 'Walls',
+        fillColor: '#FF7A5A',
+        fontFamily: 'Quicksand',
+        fontSize: increment,
+        justification: 'left'
+    });
 
-var instructions = new PointText({
-    point: [increment/4, increment*2],
-    content: 'The number \ncorresponds to the \nnumber of walls \nsurrounding it.\n\nComplete the map by \nplacing walls.',
-    fillColor: '#FF7A5A',
-    fontFamily: 'Quicksand',
-    fontSize: increment/3.5,
-    justification: 'left'
-});
+    var instructions = new PointText({
+        point: [increment/4, increment*2],
+        content: 'The number \ncorresponds to the \nnumber of walls \nsurrounding it.\n\nComplete the map by \nplacing walls.',
+        fillColor: '#FF7A5A',
+        fontFamily: 'Quicksand',
+        fontSize: increment/3.5,
+        justification: 'left'
+    });
 
-var controls = new PointText({
-    point: [increment/4, increment*5],
-    content: 'Click to place wall.\nSpace to mark as \nnot there.',
-    fillColor: '#FF7A5A',
-    fontFamily: 'Quicksand',
-    fontSize: increment/4,
-    justification: 'left'
-});
+    var controls = new PointText({
+        point: [increment/4, increment*5],
+        content: 'Click to place wall.\nSpace to mark as \nnot there.',
+        fillColor: '#FF7A5A',
+        fontFamily: 'Quicksand',
+        fontSize: increment/4,
+        justification: 'left'
+    });
+}
 
 
 function getRandomColor() {
