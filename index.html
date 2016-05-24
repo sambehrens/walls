@@ -106,9 +106,9 @@ function setup() {// adding tiles to array
     var x = xStart, y = increment/2;
     for (var i = 0; i < size; i += 1) {// middle pieces
         for (var ii = 0; ii < size; ii += 1) {
-            var rectangle = new Rectangle(new Point(x + increment/4, y + increment/4), new Size(increment*0.75, increment*0.75));
+            var rectangle = new Rectangle(new Point(x + increment/4, y + increment/4), new Size(Math.ceil(increment*0.75), Math.ceil(increment*0.75)));
             var cornerSize = new Size(increment/20, increment/20);
-            var shape = new Shape.Rectangle(rectangle, cornerSize);
+            var shape = new Shape.Rectangle(rectangle);
             shape.fillColor = '#00AAA0';
             var text = new PointText({
                 point: [x + increment*0.6, y + increment*0.75],
@@ -130,14 +130,14 @@ function setup() {// adding tiles to array
         for (var ii = 0; ii < size; ii += 1) {
 
             if (boardMain[i][ii].leftedge) {
-                var rectangle = new Rectangle(new Point(x, y + increment/8), new Size(increment/4, increment*0.75+increment/4));
+                var rectangle = new Rectangle(new Point(x, y + increment/8), new Size(Math.ceil(increment/4), Math.ceil(increment*0.75)+Math.ceil(increment/4)));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 shape.fillColor = '#FFB85F';
                 row.push(shape);
             }
             if (boardMain[i][ii].topedge) {
-                var rectangle = new Rectangle(new Point(x + increment/8, y), new Size(increment*0.75+increment/4, increment/4));
+                var rectangle = new Rectangle(new Point(x + increment/8, y), new Size(Math.ceil(increment*0.75)+Math.ceil(increment/4), Math.ceil(increment/4)));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 shape.fillColor = '#FFB85F';
@@ -145,7 +145,7 @@ function setup() {// adding tiles to array
                 console.log("the topedge");
             }
             if (true) { // the right
-                var rectangle = new Rectangle(new Point(x + increment, y + increment/8), new Size(increment/4, increment*0.75+increment/4));
+                var rectangle = new Rectangle(new Point(x + increment, y + increment/8), new Size(Math.ceil(increment/4), Math.ceil(increment*0.75)+Math.ceil(increment/4)));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 if (boardMain[i][ii].rightedge) {
@@ -157,7 +157,7 @@ function setup() {// adding tiles to array
                 row.push(shape);
             }
             if (true) { // the bottom
-                var rectangle = new Rectangle(new Point(x + increment/8, y + increment), new Size(increment*0.75+increment/4, increment/4));
+                var rectangle = new Rectangle(new Point(x + increment/8, y + increment), new Size(Math.ceil(increment*0.75)+Math.ceil(increment/4), Math.ceil(increment/4)));
                 var cornerSize = new Size(increment/20, increment/20);
                 var shape = new Shape.Rectangle(rectangle);
                 if (boardMain[i][ii].botedge) {
